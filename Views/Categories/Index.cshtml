@@ -20,9 +20,31 @@
                 <tr>
                     <td>@category.Name</td>
                     <td>@category.Description</td>
-                    <td><a class="btn btn-link" asp-controller="categories" asp-action="edit" asp-route-id="@category.CategoryId">Edit</a></td>
-                    <td><a class="btn btn-link" asp-controller="categories" asp-action="delete" asp-route-id="@category.CategoryId" onclick="confirmDelete()">Delete</a></td>
+                    <td><a class="btn btn-success" asp-controller="categories" asp-action="edit" asp-route-id="@category.CategoryId">Edit</a></td>
+                    <td>
+                        <div class="modal-btn">
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser-@category.CategoryId" data-store-id="@category.CategoryId" id="deleteUser">Delete</button>
+                        </div>
+                    </td>
                 </tr>
+                <!--Delete Modal -->
+                <div class="modal fade" id="deleteUser-@category.CategoryId" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="deleteModalLabel">Are you sure?</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                                <div class="modal-body">
+                                    <span>Once deleted, you will not be able to recover</span>
+                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a class="btn btn-primary" asp-controller="categories" asp-action="delete" asp-route-categoryid="@category.CategoryId" id="confirm-delete-user">Ok</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         </tbody>
     </table>
@@ -35,10 +57,5 @@
 </div>
 
 @section Scripts{
-    <script>
-        function confirmDelete()
-        {
-            return confirm("Are you sure you want to delete this category?")
-        }
-    </script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
 }

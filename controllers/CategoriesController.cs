@@ -22,7 +22,7 @@ namespace WebApp.controllers
         public IActionResult Edit(string id)
         {
             ViewBag.Action = "edit";
-            var category = CategoriesRepository.GetCategoryById(id);
+            var category = _categoriesRepository.GetCategoryById(id);
             return View(category);
         } 
 
@@ -31,7 +31,7 @@ namespace WebApp.controllers
         {
             if (ModelState.IsValid)
             {
-                CategoriesRepository.UpdateCategory(category.CategoryId, category);
+                _categoriesRepository.UpdateCategory(category.CategoryId, category);
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -54,9 +54,10 @@ namespace WebApp.controllers
             return View(category);
         }
 
+        
         public IActionResult Delete(string categoryId)
         {
-            CategoriesRepository.DeleteCategory(categoryId);
+            _categoriesRepository.DeleteCategory(categoryId);
             return RedirectToAction(nameof(Index));
         }
     }

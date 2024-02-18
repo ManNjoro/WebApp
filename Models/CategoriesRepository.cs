@@ -49,11 +49,10 @@ namespace WebApp.Models
             }
         }
 
-        public static List<Category> GetCategories() => _categories;
 
-        public static Category? GetCategoryById(string categoryId)
+        public Category? GetCategoryById(string categoryId)
         {
-            var category = _categories.FirstOrDefault(x => x.CategoryId == categoryId);
+            var category = _db.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
             if (category != null) 
             {
                 return new Category
@@ -66,24 +65,36 @@ namespace WebApp.Models
             return null;
         }
 
-        public static void UpdateCategory(string categoryId, Category category)
+        public void UpdateCategory(string categoryId, Category category)
         {
             if (categoryId != category.CategoryId) return;
-            var categoryToUpdate = _categories.FirstOrDefault(x => x.CategoryId == categoryId);
+            var categoryToUpdate = _db.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
             if (categoryToUpdate != null )
             {
                 categoryToUpdate.Name = category.Name;
                 categoryToUpdate.Description = category.Description;
+                _db.SaveChanges();
             }
         }
 
-        public static void DeleteCategory(string categoryId)
+        public void DeleteCategory(string categoryId)
         {
-            var category = _categories.FirstOrDefault(x => x.CategoryId == categoryId);
-            if (category != null)
+            try
             {
-                _categories.Remove(category);
+                var category = _db.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
+                if (category != null)
+                {
+                    _db.Categories.Remove(category);
+                    _db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                Console.WriteLine($"Error deleting category: {ex.Message}");
+                throw; // Re-throw the exception to propagate it up the call stack
             }
         }
+
     }
 }
