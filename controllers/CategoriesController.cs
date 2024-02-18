@@ -5,18 +5,26 @@ namespace WebApp.controllers
 {
     public class CategoriesController : Controller
     {
+        private readonly ApplicationDbContext _db;
+        private readonly CategoriesRepository _categoriesRepository;
+
+        public CategoriesController(ApplicationDbContext db)
+        {
+            _db = db;
+            _categoriesRepository = new CategoriesRepository(_db);
+        }
         public IActionResult Index()
         {
-            var categories = CategoriesRepository.GetCategories();
+            var categories = _categoriesRepository.GetAllCategories();
             return View(categories);
         }
 
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(string id)
         {
             ViewBag.Action = "edit";
-            var category = CategoriesRepository.GetCategoryById(id.HasValue?id.Value:0);
+            var category = CategoriesRepository.GetCategoryById(id);
             return View(category);
-        }
+        } 
 
         [HttpPost]
         public IActionResult Edit(Category category)
@@ -40,13 +48,13 @@ namespace WebApp.controllers
         {
             if (ModelState.IsValid)
             {
-                CategoriesRepository.AddCategory(category);
+                _categoriesRepository.AddCategory(category);
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
         }
 
-        public IActionResult Delete(int categoryId)
+        public IActionResult Delete(string categoryId)
         {
             CategoriesRepository.DeleteCategory(categoryId);
             return RedirectToAction(nameof(Index));
