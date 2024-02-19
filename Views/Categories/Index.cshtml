@@ -5,6 +5,13 @@
     
 @if (Model != null && Model.Count() > 0)
 {
+    @if ( @TempData["AlertMessage"] != null)
+    {
+        
+    <div class="alert alert-success" role="alert">
+        @TempData["AlertMessage"]
+    </div>
+    }
     <table class="table table-striped">
         <thead>
             <tr>

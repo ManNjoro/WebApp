@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using WebApp.Models;
 
 namespace WebApp.controllers
@@ -48,7 +49,7 @@ namespace WebApp.controllers
         {
             if (ModelState.IsValid)
             {
-                _categoriesRepository.AddCategory(category);
+                _categoriesRepository.AddCategory(category, TempData);
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -57,7 +58,7 @@ namespace WebApp.controllers
         
         public IActionResult Delete(string categoryId)
         {
-            _categoriesRepository.DeleteCategory(categoryId);
+            _categoriesRepository.DeleteCategory(categoryId, TempData);
             return RedirectToAction(nameof(Index));
         }
     }

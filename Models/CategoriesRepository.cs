@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApp.Models
@@ -14,6 +15,7 @@ namespace WebApp.Models
         }
 
         private static List<Category> _categories = new List<Category>();
+
         public List<Category>? GetAllCategories()
         {
             try
@@ -29,7 +31,7 @@ namespace WebApp.Models
         }
 
 
-        public void AddCategory(Category category)
+        public void AddCategory(Category category, ITempDataDictionary tempData)
         {
             if (category == null)
             {
@@ -40,6 +42,7 @@ namespace WebApp.Models
             {
                 _db.Categories.Add(category);
                 _db.SaveChanges();
+                tempData["AlertMessage"] = "Category Created Successfully...";
             }
             catch (Exception ex)
             {
@@ -55,12 +58,7 @@ namespace WebApp.Models
             var category = _db.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
             if (category != null) 
             {
-                return new Category
-                {
-                    CategoryId = category.CategoryId,
-                    Name = category.Name,
-                    Description = category.Description
-                };
+                return category;
             }
             return null;
         }
@@ -68,7 +66,7 @@ namespace WebApp.Models
         public void UpdateCategory(string categoryId, Category category)
         {
             if (categoryId != category.CategoryId) return;
-            var categoryToUpdate = _db.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
+            var categoryToUpdate = GetCategoryById(categoryId);
             if (categoryToUpdate != null )
             {
                 categoryToUpdate.Name = category.Name;
@@ -77,15 +75,16 @@ namespace WebApp.Models
             }
         }
 
-        public void DeleteCategory(string categoryId)
+        public void DeleteCategory(string categoryId, ITempDataDictionary tempData)
         {
             try
             {
-                var category = _db.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
+                var category = GetCategoryById(categoryId);
                 if (category != null)
                 {
                     _db.Categories.Remove(category);
                     _db.SaveChanges();
+                    tempData["AlertMessage"] = "Category Deleted Successfully...";
                 }
             }
             catch (Exception ex)
