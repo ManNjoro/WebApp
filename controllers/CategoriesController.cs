@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using WebApp.Models;
+using WebApp.Views.Shared.Components.SearchBar;
 
 namespace WebApp.controllers
 {
@@ -14,16 +15,27 @@ namespace WebApp.controllers
             _db = db;
             _categoriesRepository = new CategoriesRepository(_db);
         }
-        public IActionResult Index(int pg=1)
+        public IActionResult Index(int pg=1, string SearchText = "")
         {
-            var categories = _categoriesRepository.GetAllCategories();
+            List<Category> categories;
+            if (SearchText != "" && SearchText != null)
+            {
+                categories = _db.Categories
+                    .Where(cat => cat.Name.Contains(SearchText))
+                    .ToList();
+            }
+            else
+                categories = _categoriesRepository.GetAllCategories();
+
             const int pageSize = 5;
             if (pg < 1) pg = 1;
             int recsCount = categories.Count();
             var pager = new Pager(recsCount, pg, pageSize);
             int recSkip = (pg - 1) * pageSize;
             var data = categories.Skip(recSkip).Take(pager.PageSize).ToList();
-            this.ViewBag.Pager = pager;
+            SPager SearchPager = new SPager(recsCount, pg, pageSize) { Action = "index", Controller = "categories", SearchText = SearchText };
+            ViewBag.SearchPager = SearchPager;
+            // this.ViewBag.Pager = pager;
             return View(data);
         }
 
