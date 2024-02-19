@@ -6,8 +6,12 @@ namespace WebApp.Views.Shared.Components.SearchBar
     {
         public SearchBarViewComponent() { }
 
-        public IViewComponentResult Invoke(SPager SearchPager)
+        public IViewComponentResult Invoke(SPager SearchPager, bool BottomBar = false)
         {
+            if (BottomBar)
+            {
+                return View("BottomBar", SearchPager);
+            }
             return View("Default", SearchPager);
         }
     }

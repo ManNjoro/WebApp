@@ -1,11 +1,13 @@
-﻿namespace WebApp.Views.Shared.Components.SearchBar
+﻿using WebApp.Models;
+
+namespace WebApp.Views.Shared.Components.SearchBar
 {
     public class SPager
     {
         public SPager() { }
 
         public string SearchText { get; set; }
-        public string Controller {  get; set; }
+        public string Controller { get; set; }
         public string Action { get; set; }
 
         public int TotalItems { get; private set; }
@@ -14,6 +16,8 @@
         public int TotalPages { get; private set; }
         public int StartPage { get; private set; }
         public int EndPage { get; private set; }
+        public int StartRecord { get; private set; }
+        public int EndRecord { get; private set; }
 
         public SPager(int totalItems, int page, int pageSize = 10)
         {
@@ -43,6 +47,9 @@
             EndPage = endPage;
             TotalPages = totalPages;
             PageSize = pageSize;
+
+            StartRecord = (CurrentPage - 1) * PageSize + 1;
+            EndRecord = StartRecord - 1 + PageSize;
         }
     }
 }

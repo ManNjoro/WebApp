@@ -1,7 +1,13 @@
 ﻿@using WebApp.Views.Shared.Components.SearchBar;
 @model List<Category>
 @section title {
+    <div class="container mt-1 d-flex justify-content-between align-items-center">
     <h3>Categories</h3>
+        <div class="">
+                <a class="btn btn-success" asp-controller="categories" asp-action="add">Add Category</a>
+   
+        </div>
+    </div>
 }
 
 @if (Model != null && Model.Count() == 0)
@@ -9,11 +15,7 @@
     <p>Oops! No categories to display</p>
 }
 
-<div class="row mb-3">
-    <div class="col-2">
-        <a class="btn btn-success" asp-controller="categories" asp-action="add">Add Category</a>
-    </div>
-</div>
+
 
 @{
     SPager pager = new SPager();
@@ -24,8 +26,7 @@
         pageNo = pager.CurrentPage;
     }
 
-    int startRecord = (pager.CurrentPage - 1) * pager.PageSize + 1;
-    int endrecord = startRecord - 1 + pager.PageSize;
+    
 }
 
 @if (Model != null && Model.Count() > 0)
@@ -39,7 +40,7 @@
         </div>
     }
 
-     <vc:search-bar search-pager="@ViewBag.SearchPager"></vc:search-bar>   
+     <vc:search-bar search-pager="@ViewBag.SearchPager" bottom-bar="false"></vc:search-bar>   
     <table class="table table-striped">
         <thead>
             <tr>
@@ -83,26 +84,8 @@
             }
         </tbody>
     </table>
-    <div class="container m-0 p-0 btn-group" style="background-color:lightgray;border-radius:25px;height:45px;">
-
-        <div class="col-4 btn-group p-1 m-1">
-            Showing @startRecord to @endrecord of @pager.TotalItems @(pager.TotalItems==1 ? "Row" : "Rows")
-        </div>
-
-        <div class="col-3 btn-group justify-content-end">
-            <span class="col-7 mt-2 p-0">
-                Rows Per Page
-            </span>
-            <span class="col-5 p-1">
-                <select class="form-control" id="pageSelector" asp-items="@ViewBag.PageSizes"
-                        onchange="ChangePageSize(this, '@pager.SearchText');"></select>
-            </span>
-        </div>
-
-        <div class="col-5 btn-group justify-content-end p-1 m-1">
-            Showing @pager.CurrentPage / @pager.TotalPages Pages
-        </div>
-    </div>
+    <vc:search-bar search-pager="@ViewBag.SearchPager" bottom-bar="true"></vc:search-bar>
+    
 }
 
 
@@ -110,9 +93,4 @@
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     <script src="~/lib/custom/js/index.js"></script>
-    <script>
-        function ChangePageSize(obj, searchtext) {
-            window.location.href = `/@pager.Controller/@pager.Action?pageSize=${obj.value}&SearchText=${searchtext}`;
-        }
-    </script>
 }
