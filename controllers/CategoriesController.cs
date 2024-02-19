@@ -14,10 +14,17 @@ namespace WebApp.controllers
             _db = db;
             _categoriesRepository = new CategoriesRepository(_db);
         }
-        public IActionResult Index()
+        public IActionResult Index(int pg=1)
         {
             var categories = _categoriesRepository.GetAllCategories();
-            return View(categories);
+            const int pageSize = 5;
+            if (pg < 1) pg = 1;
+            int recsCount = categories.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = categories.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
+            return View(data);
         }
 
         public IActionResult Edit(string id)

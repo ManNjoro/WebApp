@@ -14,6 +14,30 @@
         {
             int totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
             int currentPage = page;
+            int startPage = currentPage - 5;
+            int endPage = currentPage + 4;
+
+            if (startPage <= 0)
+            {
+                endPage = endPage - (startPage - 1);
+                startPage = 1;
+            }
+
+            if (endPage > totalPages)
+            {
+                endPage = totalPages;
+                if (endPage > 10)
+                {
+                    startPage = endPage - 9;
+                }
+            }
+
+            TotalItems = totalItems;
+            CurrentPage = currentPage;
+            StartPage = startPage;
+            EndPage = endPage;
+            TotalPages = totalPages;
+            PageSize = pageSize;
         }
     }
 

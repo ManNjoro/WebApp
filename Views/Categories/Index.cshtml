@@ -2,7 +2,18 @@
 @section title {
     <h3>Categories</h3>
 }
-    
+
+@if (Model != null && Model.Count() == 0)
+{
+    <p>Oops! No categories to display</p>
+}
+
+<div class="row mb-3">
+    <div class="col-2">
+        <a class="btn btn-success" asp-controller="categories" asp-action="add">Add Category</a>
+    </div>
+</div>
+
 @if (Model != null && Model.Count() > 0)
 {
     @if ( @TempData["AlertMessage"] != null)
@@ -13,6 +24,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     }
+        Pager pager = new Pager();
+        int pageNo = 0;
+        if (ViewBag.Pager != null)
+        {
+            pager = ViewBag.Pager;
+            pageNo = pager.CurrentPage;
+        }
     <table class="table table-striped">
         <thead>
             <tr>
@@ -56,13 +74,10 @@
             }
         </tbody>
     </table>
+    <partial name="_Pager" model="@pager" />
 
 }
-<div class="row mb-3">
-    <div class="col-2">
-        <a class="btn btn-primary" asp-controller="categories" asp-action="add">Add</a>
-    </div>
-</div>
+
 
 @section Scripts{
     <script src="~/lib/jquery/jquery.min.js"></script>
