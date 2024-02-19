@@ -32,7 +32,7 @@ namespace WebApp.controllers
         {
             if (ModelState.IsValid)
             {
-                _categoriesRepository.UpdateCategory(category.CategoryId, category);
+                _categoriesRepository.UpdateCategory(category.CategoryId, category, TempData);
                 return RedirectToAction(nameof(Index));
             }
             return View(category);

@@ -7,9 +7,10 @@
 {
     @if ( @TempData["AlertMessage"] != null)
     {
-        
-    <div class="alert alert-success" role="alert">
+
+        <div class="alert alert-success alert-dismissible" role="alert">
         @TempData["AlertMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     }
     <table class="table table-striped">
@@ -64,5 +65,7 @@
 </div>
 
 @section Scripts{
+    <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/custom/js/index.js"></script>
 }

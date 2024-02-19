@@ -7,11 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\bootstrap\" />
+    <Content Remove="wwwroot\lib\custom\js\index.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\lib\custom\js\index.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\bootstrap\" />
+    <Folder Include="wwwroot\lib\custom\JS\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\custom\js\index.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Core.Flash" Version="2.1.1" />
+    <PackageReference Include="itext.bouncy-castle-adapter" Version="8.0.3" />
+    <PackageReference Include="itext7" Version="8.0.3" />
+    <PackageReference Include="jQuery" Version="3.7.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

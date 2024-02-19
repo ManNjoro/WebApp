@@ -63,7 +63,7 @@ namespace WebApp.Models
             return null;
         }
 
-        public void UpdateCategory(string categoryId, Category category)
+        public void UpdateCategory(string categoryId, Category category, ITempDataDictionary tempData)
         {
             if (categoryId != category.CategoryId) return;
             var categoryToUpdate = GetCategoryById(categoryId);
@@ -72,6 +72,7 @@ namespace WebApp.Models
                 categoryToUpdate.Name = category.Name;
                 categoryToUpdate.Description = category.Description;
                 _db.SaveChanges();
+                tempData["AlertMessage"] = "Category Updated Successfully...";
             }
         }
 

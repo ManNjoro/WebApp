@@ -1,0 +1,12 @@
+﻿@model List<Category>
+
+@section title {
+
+<h1>Generate Report</h1>
+}
+
+<p>Click the button below to generate and download the report.</p>
+
+<form asp-controller="Reports" asp-action="GenerateReport" method="post">
+    <button type="submit" class="btn btn-primary">Generate Report</button>
+</form>
