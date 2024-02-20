@@ -11,5 +11,6 @@ namespace WebApp.Models
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }
