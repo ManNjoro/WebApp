@@ -70,6 +70,8 @@ namespace WebApp.controllers
         {
             if (ModelState.IsValid)
             {
+                category.IsUpdated = true;
+                category.UpdateTimestamp();
                 _categoriesRepository.UpdateCategory(category.CategoryId, category, TempData);
                 return RedirectToAction(nameof(Index));
             }
