@@ -25,6 +25,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="reports" asp-action="index">Reports</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="AppRoles" asp-action="index">Roles</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -32,15 +35,21 @@
         </nav>
         </header>
         <div class="container">
-            <div class="pb-3">
+        @if (IsSectionDefined("title"))
+        {
+            
+        <div class="pb-3">
                 @RenderSection("title")
                 <hr />
             </div>
+        }
+
             <div>
 
             @RenderBody()
             </div>
         </div>
         @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     </body>
 </html>
