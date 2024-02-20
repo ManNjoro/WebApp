@@ -7,7 +7,7 @@ using WebApp.Views.Shared.Components.SearchBar;
 
 namespace WebApp.controllers
 {
-    [Authorize]
+    
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -37,6 +37,7 @@ namespace WebApp.controllers
             }
             return pagesSizes;
         }
+        [Authorize(Roles = "Admin, Employee")]
         public IActionResult Index(int pg=1, string SearchText = "", int pageSize = 5)
         {
             List<Category> categories;
@@ -60,13 +61,15 @@ namespace WebApp.controllers
             return View(data);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         public IActionResult Edit(string id)
         {
             ViewBag.Action = "edit";
             var category = _categoriesRepository.GetCategoryById(id);
             return View(category);
-        } 
+        }
 
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         public IActionResult Edit(Category category)
         {
@@ -78,12 +81,14 @@ namespace WebApp.controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         public IActionResult Add()
         {
             ViewBag.Action = "Add";
             return View();
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         public IActionResult Add(Category category)
         {
@@ -95,7 +100,7 @@ namespace WebApp.controllers
             return View(category);
         }
 
-        
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(string categoryId)
         {
             _categoriesRepository.DeleteCategory(categoryId, TempData);
