@@ -20,7 +20,7 @@ namespace WebApp.Models
         {
             try
             {
-                return _db.Categories.ToList();
+                return _db.Categories.OrderByDescending(category => category.UpdatedAt).ToList();
             }
             catch (Exception ex)
             {
@@ -71,6 +71,7 @@ namespace WebApp.Models
             {
                 categoryToUpdate.Name = category.Name;
                 categoryToUpdate.Description = category.Description;
+                categoryToUpdate.UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("E. Africa Standard Time"));
                 _db.SaveChanges();
                 tempData["AlertMessage"] = "Category Updated Successfully...";
             }
