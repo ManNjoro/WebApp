@@ -118,6 +118,17 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            if (Input.Firstname != user.Firstname)
+            {
+                user.Firstname = Input.Firstname;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.Lastname != user.Lastname)
+            {
+                user.Lastname = Input.Lastname;
+                await _userManager.UpdateAsync(user);
+            }
+
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
