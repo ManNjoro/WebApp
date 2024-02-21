@@ -28,15 +28,15 @@ namespace WebApp.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
-            IUserStore<IdentityUser> userStore,
+            IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
@@ -111,11 +111,6 @@ namespace WebApp.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
-            public string? Role { get; set; }
-
-            [ValidateNever]
-            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
 
@@ -125,11 +120,7 @@ namespace WebApp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             Input = new InputModel()
             {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
-                {
-                    Text = i,
-                    Value = i
-                })
+               
             };
         }
 
@@ -152,7 +143,7 @@ namespace WebApp.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, Input.Role);
+                    await _userManager.AddToRoleAsync(user, "Employee");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -200,13 +191,13 @@ namespace WebApp.Areas.Identity.Pages.Account
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<ApplicationUser>)_userStore;
         }
     }
 }
