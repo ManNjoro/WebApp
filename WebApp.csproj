@@ -17,6 +17,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\custom\JS\" />
+    <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 
   <ItemGroup>
