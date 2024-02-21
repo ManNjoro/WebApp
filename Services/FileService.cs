@@ -1,6 +1,6 @@
 ﻿namespace WebApp.Services
 {
-    public class FileService
+    public class FileService : IFileService
     {
         IWebHostEnvironment environment;
 
